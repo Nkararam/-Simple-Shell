@@ -58,7 +58,7 @@ int print_d(int input, int fd)
 	int (*__putchar)(char) = _putchar;
 	int i, count = 0;
 	unsigned int _abs_, current;
--//-//-77
+
 	if (fd == STDERR_FILENO)
 		__putchar = _eputchar;
 	if (input < 0)
