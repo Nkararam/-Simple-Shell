@@ -37,3 +37,14 @@ access (man 2 access) chdir (man 2 chdir) close (man 2 close) closedir (man 3 cl
 Compilation
 Your shell will be compiled this way:
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+
+files
+README.md - description about the project repo
+AUTHORS - file at the root of your repository, listing all individuals having contributed content to the repository.
+file.h - is the header file which contains the standared header file and prototype of o function used in the program.
+main.c - initialize the program with infinite loop by call the prompt function
+getline.c - it use getline system call to read the input from the user and run infinite loop with fork to keep prompt going.
+string.c -it handles the strings(string length, write string,find string in directory,concatane strings....)
+cmd.c - it finds the command the user entered.
+exec.c - execute the command.
+Parser,c -finds the PATH
