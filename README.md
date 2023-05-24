@@ -48,3 +48,13 @@ string.c -it handles the strings(string length, write string,find string in dire
 cmd.c - it finds the command the user entered.
 exec.c - execute the command.
 Parser,c -finds the PATH
+
+How to add Author file
+Bash script for generating the list of authors in git repo
+
+#!/bin/sh
+
+git shortlog -se \
+  | perl -spe 's/^\s+\d+\s+//' \
+  | sed -e '/^CommitSyncScript.*$/d' \
+  > AUTHORS
