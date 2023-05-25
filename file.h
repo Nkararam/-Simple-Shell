@@ -1,5 +1,5 @@
-#ifndef _FILE_H_
-#define _FILE_H_
+#ifndef _SHELL_H_
+#define _SHELL_H_
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -48,9 +48,7 @@ typedef struct liststr
 	int num;
 	char *str;
 	struct liststr *next;
-}
-
-list_t;
+} list_t;
 
 /**
  * struct passinfo - contains pseudo-arguements to pass into a function,
@@ -95,9 +93,7 @@ typedef struct passinfo
 	int cmd_buf_type; /* CMD_type ||, &&, ; */
 	int readfd;
 	int histcount;
-}
-
-info_t;
+} info_t;
 
 #define INFO_INIT \
 {NULL, NULL, NULL, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0, 0, NULL, \

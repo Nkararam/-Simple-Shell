@@ -8,23 +8,24 @@
  */
 int _erratoi(char *s)
 {
-int i = 0;
-unsigned long int result = 0;
-if (*s == '+')
-s++;  /* TODO: why does this make main return 255? */
-for (i = 0;  s[i] != '\0'; i++)
-{
-if (s[i] >= '0' && s[i] <= '9')
-{
-result *= 10;
-result += (s[i] - '0');
-if (result > INT_MAX)
-return (-1);
-}
-else
-return (-1);
-}
-return (result);
+	int i = 0;
+	unsigned long int result = 0;
+
+	if (*s == '+')
+		s++;  /* TODO: why does this make main return 255? */
+	for (i = 0;  s[i] != '\0'; i++)
+	{
+		if (s[i] >= '0' && s[i] <= '9')
+		{
+			result *= 10;
+			result += (s[i] - '0');
+			if (result > INT_MAX)
+				return (-1);
+		}
+		else
+			return (-1);
+	}
+	return (result);
 }
 
 /**
@@ -36,13 +37,13 @@ return (result);
  */
 void print_error(info_t *info, char *estr)
 {
-write(STDERR_FILENO, info->fname, _strlen(info->fname));
-write(STDERR_FILENO, ": ", 2);
-print_d(info->line_count, STDERR_FILENO);
-write(STDERR_FILENO, ": ", 2);
-write(STDERR_FILENO, info->argv[0], _strlen(info->argv[0]));
-write(STDERR_FILENO, ": ", 2);
-write(STDERR_FILENO, estr, _strlen(estr));
+	_eputs(info->fname);
+	_eputs(": ");
+	print_d(info->line_count, STDERR_FILENO);
+	_eputs(": ");
+	_eputs(info->argv[0]);
+	_eputs(": ");
+	_eputs(estr);
 }
 
 /**
@@ -54,31 +55,34 @@ write(STDERR_FILENO, estr, _strlen(estr));
  */
 int print_d(int input, int fd)
 {
-char buffer[20];
-int count = 0;
-int i = 0;
-unsigned int _abs_, current;
-if (input < 0)
-{
-_abs_ = -input;
-count += write(fd, "-", 1);
-}
-else
-{
-_abs_ = input;
-}
-current = _abs_;
-do
+	int (*__putchar)(char) = _putchar;
+	int i, count = 0;
+	unsigned int _abs_, current;
 
-{
-buffer[i++] = '0' + current % 10;
-current /= 10;
-} while (current != 0);
-while (i > 0)
-{
-count += write(fd, &buffer[--i], 1);
-}
-return (count);
+	if (fd == STDERR_FILENO)
+		__putchar = _eputchar;
+	if (input < 0)
+	{
+		_abs_ = -input;
+		__putchar('-');
+		count++;
+	}
+	else
+		_abs_ = input;
+	current = _abs_;
+	for (i = 1000000000; i > 1; i /= 10)
+	{
+		if (_abs_ / i)
+		{
+			__putchar('0' + current / i);
+			count++;
+		}
+		current %= i;
+	}
+	__putchar('0' + current);
+	count++;
+
+	return (count);
 }
 
 /**
@@ -91,28 +95,30 @@ return (count);
  */
 char *convert_number(long int num, int base, int flags)
 {
-static char *array;
-static char buffer[50];
-char sign = 0;
-char *ptr;
-unsigned long n = num;
-if (!(flags & CONVERT_UNSIGNED) && num < 0)
-{
-n = -num;
-sign = '-';
-}
-array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
-ptr = &buffer[49];
-*ptr = '\0';
-do
+	static char *array;
+	static char buffer[50];
+	char sign = 0;
+	char *ptr;
+	unsigned long n = num;
 
-{
-*--ptr = array[n % base];
-n /= base;
-} while (n != 0);
-if (sign)
-*--ptr = sign;
-return (ptr);
+	if (!(flags & CONVERT_UNSIGNED) && num < 0)
+	{
+		n = -num;
+		sign = '-';
+
+	}
+	array = flags & CONVERT_LOWERCASE ? "0123456789abcdef" : "0123456789ABCDEF";
+	ptr = &buffer[49];
+	*ptr = '\0';
+
+	do	{
+		*--ptr = array[n % base];
+		n /= base;
+	} while (n != 0);
+
+	if (sign)
+		*--ptr = sign;
+	return (ptr);
 }
 
 /**
@@ -123,12 +129,12 @@ return (ptr);
  */
 void remove_comments(char *buf)
 {
-int i;
+	int i;
 
-for (i = 0; buf[i] != '\0'; i++)
-if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
-{
-buf[i] = '\0';
-break;
-}
+	for (i = 0; buf[i] != '\0'; i++)
+		if (buf[i] == '#' && (!i || buf[i - 1] == ' '))
+		{
+			buf[i] = '\0';
+			break;
+		}
 }
